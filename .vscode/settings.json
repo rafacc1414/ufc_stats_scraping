@@ -1,0 +1,31 @@
+{
+    /* TREE Configuration */
+    "todo-tree.general.tags": ["TODO", "FIXME", "FANCY", "BUG"],
+    "todo-tree.highlights.customHighlight": {
+        "TODO": {
+            "iconColour": "green",
+            "icon": "check",
+            "type": "line"
+        },
+        "FIXME": {
+            "iconColour": "red",
+            "gutterIcon": true
+        },
+        "FANCY": {
+            "iconColour": "green",
+            "gutterIcon": true,
+            "icon": "credit-card"
+        },
+        "BUG": {
+            "iconColour": "yellow",
+            "gutterIcon": true,
+            "icon": "bug"
+        }
+    },
+
+    /* Vertical Ruler */
+    "editor.rulers": [80,120],
+    "workbench.colorCustomizations": {
+        "editorRuler.foreground": "#ff0000"
+    }
+}

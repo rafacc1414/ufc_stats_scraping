@@ -1,0 +1,20 @@
+{
+    "name" : "ufc_stats_scraping",
+    "dockerComposeFile" : "compose.yml",
+    "service": "scraping-data-app",
+	"workspaceFolder": "/code/dev",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-toolsai.jupyter",
+				"Gruntfuggly.todo-tree",
+				"mintlify.document",
+				"mhutchie.git-graph",
+				"ms-azuretools.vscode-docker",
+				"alefragnani.project-manager"
+			]
+		}
+	},
+	"containerUser": "dev"
+}
