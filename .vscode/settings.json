@@ -19,8 +19,9 @@
             "icon": "credit-card"
         },
         "WIP": {
-            "iconColour": "gray",
+            "iconColour": "orange",
             "type": "line",
+            "gutterIcon": true,
             "icon": "zap"
         },
         "BUG": {
