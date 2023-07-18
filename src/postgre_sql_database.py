@@ -33,7 +33,7 @@ class PostgreSQLDatabase:
         self.cursor.execute(query)
         self.connection.commit()
         rows = self.cursor.fetchall()
-        # WORK IN PROGRESS: Trying to show the result of the query using 'tabulate'
+        # WIP: Trying to show the result of the query using 'tabulate'
         #column_names = [desc[0] for desc in self.cursor.description]
         #print(tabulate(rows, headers=column_names, tablefmt='psql'))
         print("--- Query executed succesfully ---")
