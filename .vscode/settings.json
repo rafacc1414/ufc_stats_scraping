@@ -4,28 +4,38 @@
     "todo-tree.highlights.customHighlight": {
         "TODO": {
             "iconColour": "green",
-            "icon": "check",
+            "icon": "log",
+            "gutterIcon": true,
             "type": "line"
         },
         "FIXME": {
             "iconColour": "red",
-            "gutterIcon": true
+            "gutterIcon": true,
+            "icon": "tools"
         },
         "FANCY": {
             "iconColour": "green",
             "gutterIcon": true,
             "icon": "credit-card"
         },
+        "WIP": {
+            "iconColour": "gray",
+            "type": "line",
+            "icon": "zap"
+        },
         "BUG": {
             "iconColour": "yellow",
             "gutterIcon": true,
             "icon": "bug"
-        }
+        },
     },
 
     /* Vertical Ruler */
     "editor.rulers": [100,120],
     "workbench.colorCustomizations": {
         "editorRuler.foreground": "#ff0000"
-    }
+    },
+    "python.analysis.extraPaths": [
+        "./src/db_utils"
+    ]
 }
