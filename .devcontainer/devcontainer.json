@@ -16,5 +16,6 @@
 			]
 		}
 	},
-	"containerUser": "dev"
+	"containerUser": "dev",
+	"forwardPorts": [5432]
 }

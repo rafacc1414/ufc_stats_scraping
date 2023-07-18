@@ -24,7 +24,7 @@
     },
 
     /* Vertical Ruler */
-    "editor.rulers": [80,120],
+    "editor.rulers": [100,120],
     "workbench.colorCustomizations": {
         "editorRuler.foreground": "#ff0000"
     }
