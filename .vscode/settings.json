@@ -1,6 +1,6 @@
 {
     /* TREE Configuration */
-    "todo-tree.general.tags": ["TODO", "FIXME", "FANCY", "BUG"],
+    "todo-tree.general.tags": ["TODO", "FIXME", "FANCY", "WIP", "BUG"],
     "todo-tree.highlights.customHighlight": {
         "TODO": {
             "iconColour": "green",

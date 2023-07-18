@@ -1,7 +1,7 @@
 import psycopg2
 #from tabulate import tabulate
 
-TODO: Each method must check that the inputs are correct and if something fails, it should return an error.
+# TODO: Each method must check that the inputs are correct and if something fails, it should return an error.
 class PostgreSQLDatabase:
     def __init__(self, host, port, database, user, password):
         self.host = host
