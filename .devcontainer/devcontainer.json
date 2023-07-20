@@ -12,7 +12,8 @@
 				"mintlify.document",
 				"mhutchie.git-graph",
 				"ms-azuretools.vscode-docker",
-				"alefragnani.project-manager"
+				"alefragnani.project-manager",
+				"github.vscode-github-actions"
 			]
 		}
 	},

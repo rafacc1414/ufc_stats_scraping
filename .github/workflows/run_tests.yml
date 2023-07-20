@@ -1,0 +1,35 @@
+name: Deploy Containers
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DOCKER_COMPOSE_FILE: .devcontainer/compose.yml
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # You can choose a different runner if needed
+
+    steps:
+
+    - name: Checkout code 
+      uses: actions/checkout@v3
+
+    - name: List files in the repository
+      run: |
+        ls ${{ github.workspace }}
+
+    - name: Set up Docker Compose
+      run: |
+        docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} up -d
+
+    - name: Wait for containers to start
+      run: |
+        docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} ps
+
+    - name: Run tests inside the devcontainer
+      run: |
+        docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} exec -T scraping-data-app python3 -m unittest discover /code/dev/tests
