@@ -1,99 +1,76 @@
-import os
 import unittest
-import psycopg2
+from unittest.mock import MagicMock, patch
+import xmlrunner
+import HtmlTestRunner
 
-# TODO: Use environment variables to store this information
-# POSTGRES_DB = os.environ.get('POSTGRES_DB')
-# POSTGRES_USER = os.environ.get('POSTGRES_USER')
-# POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
+import os, sys
 
-# Database information
-POSTGRES_DB = "postgres"
-POSTGRES_USER = "postgres"
-POSTGRES_PASSWORD = "postgres"
-POSTGRES_HOST="localhost"
-POSTGRES_PORT="5432"
+dirname = os.path.dirname(os.path.abspath(sys.argv[0]))
+sys.path.append(f"{dirname}/../src")
+import db_utils
 
-class TestPostgreSQL(unittest.TestCase):
+
+class TestPostgreSQLDatabase(unittest.TestCase):
     def setUp(self):
-        # Establish a connection to the PostgreSQL database
-        self.conn = psycopg2.connect(
-            dbname=POSTGRES_DB,
-            user=POSTGRES_USER,
-            password=POSTGRES_PASSWORD,
-            host=POSTGRES_HOST,
-            port=POSTGRES_PORT
-        )
+        # Create a mock connection and cursor for testing
+        self.connection_mock = MagicMock()
+        self.cursor_mock = MagicMock()
+        self.connection_mock.cursor.return_value = self.cursor_mock
 
-        # Create a cursor object to execute SQL queries
-        self.cur = self.conn.cursor()
+    @patch("db_utils.psycopg2.connect")
+    def test_connect_success(self, mock_connect):
+        mock_connect.return_value = self.connection_mock
 
-        # Check if the test table already exists
-        self.cur.execute("SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'test_table')")
-        table_exists = self.cur.fetchone()[0]
+        db = db_utils.PostgreSQLDatabase("host", 5432, "database", "user", "password")
+        db.connect()
 
-        if not table_exists:
-            # Create the test table
-            self.cur.execute("CREATE TABLE test_table (id SERIAL PRIMARY KEY, name VARCHAR)")
+        self.assertTrue(db.connected)
+        mock_connect.assert_called_once()
 
-        # Commit the changes to the database
-        self.conn.commit()
+    @patch("db_utils.psycopg2.connect", side_effect=Exception("Connection Error"))
+    def test_connect_failure(self, mock_connect):
+        db = db_utils.PostgreSQLDatabase("host", 5432, "database", "user", "password")
+        db.connect()
 
-    def tearDown(self):
-        # Drop the test table
-        self.cur.execute("DROP TABLE IF EXISTS test_table")
+        self.assertFalse(db.connected)
+        mock_connect.assert_called_once()
 
-        # Commit the changes to the database
-        self.conn.commit()
+    @patch("db_utils.psycopg2.connect")
+    def test_disconnect(self, mock_connect):
+        mock_connect.return_value = self.connection_mock
 
-        # Close the cursor and connection
-        self.cur.close()
-        self.conn.close()
+        db = db_utils.PostgreSQLDatabase("host", 5432, "database", "user", "password")
+        db.connect()
+        db.disconnect()
 
-    def test_insert_data(self):
-        # Insert test data into the table
-        self.cur.execute("INSERT INTO test_table (name) VALUES ('John')")
-        self.conn.commit()
+        self.assertFalse(db.connected)
+        self.cursor_mock.close.assert_called_once()
+        self.connection_mock.close.assert_called_once()
 
-        # Query the table to verify the inserted data
-        self.cur.execute("SELECT * FROM test_table WHERE name = 'John'")
-        result = self.cur.fetchone()
-
-        # Assert that the query result matches the inserted data
-        self.assertEqual(result[1], 'John')
-
-    def test_update_data(self):
-        # Insert initial data into the table
-        self.cur.execute("INSERT INTO test_table (name) VALUES ('Jane')")
-        self.conn.commit()
-
-        # Update the inserted data
-        self.cur.execute("UPDATE test_table SET name = 'Janet' WHERE name = 'Jane'")
-        self.conn.commit()
-
-        # Query the table to verify the updated data
-        self.cur.execute("SELECT * FROM test_table WHERE name = 'Janet'")
-        result = self.cur.fetchone()
-
-        # Assert that the query result matches the updated data
-        self.assertEqual(result[1], 'Janet')
-
-    def test_show_tables(self):
-        # Query the PostgreSQL database for a list of all tables
-        self.cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'")
-
-        # Fetch all the table names
-        table_names = self.cur.fetchall()
-
-        # Print the table names
-        for table_name in table_names:
-            print(table_name[0])
-
-    # Add more test cases as needed
-
-if __name__ == '__main__':
-    unittest.main()
+    # Write similar test methods for other functions
 
 
+if __name__ == "__main__":
+    reports_dir = f"tests/reports/"
+    os.makedirs(f"{reports_dir}", exist_ok=True)
 
+    # # Generate XML report
+    # xml_report_path = f"{reports_dir}/report.xml"
+    # with open(xml_report_path, "wb") as output:
+    #     unittest.main(
+    #         testRunner=xmlrunner.XMLTestRunner(output=output),
+    #         failfast=False,
+    #         buffer=False,
+    #         catchbreak=False,
+    #     )
 
+    # Generate HTML report using HtmlTestRunner
+    html_report_path = f"{reports_dir}"
+
+    unittest.main(
+            testRunner=HtmlTestRunner.HTMLTestRunner(output=html_report_path,
+                                                     report_name="unit_test_report"),
+            failfast=False,
+            buffer=False,
+            catchbreak=False,
+    )
