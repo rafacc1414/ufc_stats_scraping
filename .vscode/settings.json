@@ -38,7 +38,7 @@
     },
     "python.analysis.extraPaths": [
         "./src/db_utils",
-        "./lib"
+        "./ext_libs"
     ],
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
