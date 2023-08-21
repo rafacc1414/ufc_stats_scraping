@@ -37,6 +37,11 @@
         "editorRuler.foreground": "#ff0000"
     },
     "python.analysis.extraPaths": [
-        "./src/db_utils"
-    ]
+        "./src/db_utils",
+        "./lib"
+    ],
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+            "editor.formatOnSave": true
+    }
 }
