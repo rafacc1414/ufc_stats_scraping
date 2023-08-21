@@ -5,8 +5,10 @@ import HtmlTestRunner
 
 import os, sys
 
-dirname = os.path.dirname(os.path.abspath(sys.argv[0]))
+current_file_path = os.path.abspath(__file__)
+dirname = os.path.dirname(current_file_path)
 sys.path.append(f"{dirname}/../src")
+print(f"{dirname}")
 import db_utils
 
 
