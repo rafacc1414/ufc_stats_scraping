@@ -3,18 +3,18 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
 on:
   push:
-    branches:
-      - main
+    #  branches:
+    #    - main
 
 env:
   DOCKER_COMPOSE_FILE: .devcontainer/compose.yml
+  REQUIREMENTS: .devcontainer/requirements.txt
 
 jobs:
-  deploy:
+  Unit-Testig-Container:
     runs-on: ubuntu-latest  # You can choose a different runner if needed
-
+    
     steps:
-
     - name: Checkout code 
       uses: actions/checkout@v3
 
@@ -30,6 +30,17 @@ jobs:
       run: |
         docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} ps
 
-    - name: Run tests inside the devcontainer
+    - name: Run all tests
       run: |
-        docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} exec -T scraping-data-app python3 -m unittest discover /code/dev/tests
+            docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} exec -T scraping-data-app python3 /code/dev/tests/main.py
+    
+    - name: Copy reports from DevContainer to Host
+      run: docker cp scraping-data-app:/tmp/reports ${{ github.workspace }}
+  
+    - name: Upload reports as artifact
+      uses: actions/upload-artifact@v3
+      with:
+          name: test-reports
+          path: ${{ github.workspace }}/reports
+
+          

@@ -10,7 +10,7 @@ services:
     command: sleep infinity
     volumes:
       - ../:/code/dev
-      - ~/.gitconfig:/home/scraping/.gitconfig
+      - ~/.gitconfig/:/home/scraping/.gitconfig
     user: dev
     
     # Runs scraping-data-app on the same network as the database container, allows "forwardPorts" in
