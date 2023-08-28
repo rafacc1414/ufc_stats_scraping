@@ -4,6 +4,7 @@ import os
 import unittest
 import psycopg2
 
+import HtmlTestRunner
 import db_utils
 
 POSTGRES_DB = "postgres"
@@ -33,5 +34,27 @@ class TestPostgreSQLDatabase(unittest.TestCase):
     def test_drop_table(self):
         self.db.drop_table("pepe")
 
-if __name__ == '__main__':
-    unittest.main()
+if __name__ == "__main__":
+    reports_dir = f"tests/reports/"
+    os.makedirs(f"{reports_dir}", exist_ok=True)
+
+    # # Generate XML report
+    # xml_report_path = f"{reports_dir}/report.xml"
+    # with open(xml_report_path, "wb") as output:
+    #     unittest.main(
+    #         testRunner=xmlrunner.XMLTestRunner(output=output),
+    #         failfast=False,
+    #         buffer=False,
+    #         catchbreak=False,
+    #     )
+
+    # Generate HTML report using HtmlTestRunner
+    html_report_path = f"{reports_dir}"
+
+    unittest.main(
+            testRunner=HtmlTestRunner.HTMLTestRunner(output=html_report_path,
+                                                     report_name="unit_test_report"),
+            failfast=False,
+            buffer=False,
+            catchbreak=False,
+    )
