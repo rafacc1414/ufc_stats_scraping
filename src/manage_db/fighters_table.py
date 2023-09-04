@@ -8,7 +8,8 @@ import os
 import yaml
 import csv
 
-dirname = os.path.dirname(os.path.abspath(sys.argv[0]))
+current_file_path = os.path.abspath(__file__)
+dirname = os.path.dirname(current_file_path)
 
 # Scrapping information
 scrape_config_file = f"{dirname}/../../config/scrape_config.yaml"

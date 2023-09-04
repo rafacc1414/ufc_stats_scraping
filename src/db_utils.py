@@ -25,7 +25,7 @@ class PostgreSQLDatabase:
             self.cursor = self.connection.cursor()
             self.connected = True
             print(f'--- Connected to "{self.database}" database ---')
-        except psycopg2.Error as e:
+        except Exception or psycopg2.Error as e:
             print(f"Error connecting to the database: {e}")
             self.connected = False
 
@@ -37,10 +37,12 @@ class PostgreSQLDatabase:
         try:
             if self.cursor:
                 self.cursor.close()
+                self.connected = False
             if self.connection:
                 self.connection.close()
+                self.connected = False
                 print(f'--- Disconnected from "{self.database}" database ---')
-        except psycopg2.Error as e:
+        except Exception or psycopg2.Error as e:
             print(f"Error disconnecting from the database: {e}")
 
     def table_exists(self, tablename):
@@ -53,7 +55,7 @@ class PostgreSQLDatabase:
             self.cursor.execute(query, (tablename,))
             return self.cursor.fetchone()[0]
 
-        except psycopg2.Error as e:
+        except Exception or psycopg2.Error as e:
             print(f"Error checking table existence: {e}")
             return False
 
@@ -67,7 +69,7 @@ class PostgreSQLDatabase:
             self.cursor.execute(query, (column_value,))
             return self.cursor.fetchone()[0]
 
-        except psycopg2.Error as e:
+        except Exception or psycopg2.Error as e:
             print(f"Error checking row existence: {e}")
             return False
 
@@ -89,7 +91,7 @@ class PostgreSQLDatabase:
             self.connection.commit()
             print(f'--- Table "{tablename}" created successfully ---')
             return True
-        except psycopg2.Error as e:
+        except Exception or psycopg2.Error as e:
             print(f"Error creating table: {e}")
             return False
 
@@ -105,7 +107,7 @@ class PostgreSQLDatabase:
             self.connection.commit()
             print("--- Data inserted successfully ---")
             return True
-        except psycopg2.Error as e:
+        except Exception or psycopg2.Error as e:
             print(f"Error inserting data: {e}")
             return False
 
@@ -127,7 +129,7 @@ class PostgreSQLDatabase:
                 print(f'Row with {name_column} "{name_value}" does not exist.')
                 return False
 
-        except psycopg2.Error as e:
+        except Exception or psycopg2.Error as e:
             print(f"Error updating row: {e}")
             return False
 
@@ -147,7 +149,7 @@ class PostgreSQLDatabase:
                 table_data.append(row_dict)
             return table_data
 
-        except psycopg2.Error as e:
+        except Exception or psycopg2.Error as e:
             print(f"Error fetching data: {e}")
             return None
 
@@ -162,7 +164,7 @@ class PostgreSQLDatabase:
             self.connection.commit()
             print(f'--- Column "{column_name}" dropped from table "{tablename}"')
             return True
-        except psycopg2.Error as e:
+        except Exception or psycopg2.Error as e:
             print(f"Error dropping column: {e}")
             return False
 
@@ -177,7 +179,7 @@ class PostgreSQLDatabase:
             self.connection.commit()
             print("--- Table deleted successfully ---")
             return True
-        except psycopg2.Error as e:
+        except Exception or psycopg2.Error as e:
             print(f"Error deleting table: {e}")
             return False
 
@@ -194,6 +196,6 @@ class PostgreSQLDatabase:
             print(tabulate(rows, headers=column_names, tablefmt="psql"))
             print("--- Query executed successfully ---")
             return True
-        except psycopg2.Error as e:
+        except Exception or psycopg2.Error as e:
             print(f"Error executing query: {e}")
             return False
