@@ -14,7 +14,7 @@ import numpy as np
 import scrape_ufc_stats_library as LIB
 import yaml
 
-config_file = f"{dirname}/../config/scrape_config.yaml"
+config_file = f"{dirname}/../../config/scrape_config.yaml"
 with open(config_file, "r") as file:
     config = yaml.safe_load(file)
 
