@@ -16,10 +16,10 @@ scrape_config_file = f"{dirname}/../../config/scrape_config.yaml"
 with open(scrape_config_file, "r") as file:
     scrape_config = yaml.safe_load(file)
 UFC_FIGHTER_DETAILS_PATH = (
-    f"{dirname}/../../data/{scrape_config['fighter_details_file_name']}"
+    f"{dirname}/../../{scrape_config['fighter_details_file_name']}"
 )
 UFC_FIGHTER_TOTT_PATH = (
-    f"{dirname}/../../data/{scrape_config['fighter_tott_file_name']}"
+    f"{dirname}/../../{scrape_config['fighter_tott_file_name']}"
 )
 
 # Get the database credentials
