@@ -45,5 +45,26 @@ The directory [config](config) keeps all the configuration files for running the
 - [config/database_config.yaml](config/database_config.yaml) has all the variables related to the database.
 - [config/scrape_config.yaml](config/scrape_config.yaml) has all the variables needed to scrape in [ufcstats](http://ufcstats.com/).
 
+## Update all information
+
+Time to time is recomended to update all the information in the repository. To do that, just launch:
+
+```bash
+sh update_information.sh
+```
+
+## API REST
+
+The API is stored [src/api](src/api). Run:
+
+```python
+python3 src/api/main.py
+```
+
+It launches the application which provides the endpoints.
+
+Active Endpoints:
+
+- GET http://127.0.0.1:5000/get_table_data/fighters
 
 
